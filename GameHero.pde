@@ -1,19 +1,22 @@
 public class GameHero {
   int x, y;
-  int size = 50;
-  int thickness = 10; //width
+  int size = 70;
+  int thickness = 15; //width
   
   float yspeed = 0;
-  float jumpSpeed = 7;
+  float jumpSpeed = 9;
   float dt = 0.01f;
   boolean jumping = false;
   boolean midAir = false;
   int startingJumpPosition;
   
+  StateManager1 stateManager1;
   
   GameHero(int _x, int _y) {
     x = _x;
     y = _y;
+    
+    stateManager1 = new StateManager1();
   }
   public void jump() {
     if (!jumping) {
@@ -23,14 +26,14 @@ public class GameHero {
   }
   public void update() {
     if (!jumping) {
-      if (y + size < height - platformHeight) {
+      if (y + size < height - stateManager1.platformHeight) {
         y += yspeed;
-        yspeed += gravity*dt;
+        yspeed += stateManager1.gravity*dt;
       }
     } else {
       setUpwardVelocity(-jumpSpeed);
       y += yspeed;
-      yspeed += gravity*dt;
+      yspeed += stateManager1.gravity*dt;
       midAir = true;
       if (y + size/10 > startingJumpPosition) {
         jumping = false;
@@ -45,6 +48,7 @@ public class GameHero {
     }
   }
   public void show() {
+    fill(255);
     rect(x, y, thickness, size);
   }
     
